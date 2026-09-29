@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Register - Smart Parking</title>
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🚗 Smart Parking</h1>
+
+    <h2>Create Account</h2>
+
+    <input
+        id="name"
+        type="text"
+        placeholder="Full Name">
+
+    <input
+        id="email"
+        type="email"
+        placeholder="Email">
+
+    <input
+        id="password"
+        type="password"
+        placeholder="Password">
+
+
+    <select id="role">
+
+        <option value="driver">
+            Driver
+        </option>
+
+        <option value="owner">
+            Parking Owner
+        </option>
+
+    </select>
+
+
+    <button onclick="register()">
+        Register
+    </button>
+
+    <p id="message"></p>
+
+
+    <a href="login.html">
+        Already have an account? Login
+    </a>
+
+</div>
+
+
+<script>
+
+async function register() {
+
+    const name =
+        document.getElementById("name").value;
+
+    const email =
+        document.getElementById("email").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    const role =
+        document.getElementById("role").value;
+
+
+    if (
+        !name ||
+        !email ||
+        !password
+    ) {
+
+        document.getElementById("message")
+            .innerText =
+            "Please fill all fields.";
+
+        return;
+    }
+
+
+    const response =
+        await fetch(
+            "/api/auth",
+            {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    action: "register",
+
+                    name,
+                    email,
+                    password,
+                    role
+
+                })
+
+            }
+        );
+
+
+    const data =
+        await response.json();
+
+
+    document.getElementById("message")
+        .innerText =
+        data.message;
+
+
+    if (response.ok) {
+
+        setTimeout(() => {
+
+            window.location.href =
+                "login.html";
+
+        }, 1000);
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
