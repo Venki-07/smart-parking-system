@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Add Parking</title>
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🅿️ Add Parking</h1>
+
+    <input
+        id="name"
+        placeholder="Parking Name">
+
+    <input
+        id="address"
+        placeholder="Address">
+
+    <input
+        id="city"
+        value="Chennai"
+        placeholder="City">
+
+    <input
+        id="slots"
+        type="number"
+        placeholder="Total Slots">
+
+    <input
+        id="price"
+        type="number"
+        placeholder="Price per hour">
+
+    <input
+        id="latitude"
+        type="number"
+        step="any"
+        placeholder="Latitude">
+
+    <input
+        id="longitude"
+        type="number"
+        step="any"
+        placeholder="Longitude">
+
+
+    <button onclick="addParking()">
+        Add Parking Place
+    </button>
+
+
+    <p id="message"></p>
+
+</div>
+
+
+<script>
+
+async function addParking() {
+
+    const token =
+        localStorage.getItem("token");
+
+
+    const data = {
+
+        action: "add",
+
+        name:
+            document.getElementById(
+                "name"
+            ).value,
+
+        address:
+            document.getElementById(
+                "address"
+            ).value,
+
+        city:
+            document.getElementById(
+                "city"
+            ).value,
+
+        totalSlots:
+            Number(
+                document.getElementById(
+                    "slots"
+                ).value
+            ),
+
+        availableSlots:
+            Number(
+                document.getElementById(
+                    "slots"
+                ).value
+            ),
+
+        price:
+            Number(
+                document.getElementById(
+                    "price"
+                ).value
+            ),
+
+        latitude:
+            Number(
+                document.getElementById(
+                    "latitude"
+                ).value
+            ),
+
+        longitude:
+            Number(
+                document.getElementById(
+                    "longitude"
+                ).value
+            )
+
+    };
+
+
+    const response =
+        await fetch(
+            "/api/parking",
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json",
+
+                    Authorization:
+                        "Bearer " + token
+
+                },
+
+                body:
+                    JSON.stringify(data)
+
+            }
+        );
+
+
+    const result =
+        await response.json();
+
+
+    document.getElementById("message")
+        .innerText =
+        result.message;
+
+
+    if (response.ok) {
+
+        setTimeout(() => {
+
+            window.location.href =
+                "owner.html";
+
+        }, 1000);
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
